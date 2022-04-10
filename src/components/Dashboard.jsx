@@ -3,7 +3,8 @@ import { Card, Button, Alert, Form } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext'
 import { useHistory } from 'react-router-dom';
 import { db } from "../firebase"
-import { collection, onSnapshot, doc } from 'firebase/firestore';
+import { collection, onSnapshot, doc, getDocs, limit } from 'firebase/firestore';
+import Data from './Data';
 
 export default function Dashboard() {
     const [error, setError ] = useState('');
@@ -11,33 +12,43 @@ export default function Dashboard() {
     const history = useHistory()
     const [weatherData, setWeatherData] = useState([]);
     const [search, setSearch] = useState('');
+    const [loading, setLoading] = useState(true)
+    
 
-    useEffect(() => 
+    useEffect(() =>{ 
+        
+   
+     
+           
+            
+    
      onSnapshot(doc(db, "weather-data", "forecast"), (doc) => {
          setWeatherData(doc.data())
+         
          console.log("current data", doc.data())
+         
             // setWeatherData(snapshot.docs.map(doc => doc.data()))
         })
+        setLoading(false)
         
-    , [])
-        // console.log(weatherData.station.map())
+        
+        }, [])
+
+      if(loading) return <h1>loading data</h1>
+
+        console.log(weatherData.station)
    
-    
-    
-    // for (const [key, value] of Object.entries(databaseData)) {
-    //     console.log(`${key}: ${value}`)
-    // }
-     
-        // const dublinData = weatherData[0].station[0].day;
+        
 
         const handleChange = e => {
             setSearch(e.target.value)
           }
            
-    
-        // const filteredLocations = databaseData.filter(data =>
-        //     data.location.toLowerCase().includes(search.toLowerCase()))
+        
 
+     if(weatherData.station === undefined) {
+         return <h1>loading</h1>
+     }
 
 
     async function handleLogout(){
@@ -76,13 +87,21 @@ export default function Dashboard() {
                 </tr>
             </thead> 
            <tbody>
-           {console.log(weatherData.station.map(({location}) => {
-               return(
-                  
-                   {location}
-                   
-               )
-           }))}
+              
+           
+
+           
+            {weatherData.station.map(station => {
+                return(
+                    <Data
+                    location = {station.location}
+                    id = {station.id}
+                    day = {station.day}
+                    
+                    />
+                )
+            })}
+           
 
 
 </tbody>
