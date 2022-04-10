@@ -2,6 +2,8 @@
 import firebase from 'firebase/compat/app';
 import "firebase/compat/auth";
 import { getDocs, collection, getFirestore } from 'firebase/firestore'
+import "firebase/compat/storage"
+
 
 const app = firebase.initializeApp({
 
@@ -14,18 +16,28 @@ const app = firebase.initializeApp({
 
 })
 
+ export const storage = firebase.storage();
+
+
+
+
 export const db = getFirestore();
 
-const colRef = collection(db, 'weather')
+const colRef = collection(db, 'weather-data')
 
 getDocs(colRef).then((snapshot) => {
         
- let weather = []
+ let forecast = []
     snapshot.docs.forEach((doc) => {
-        weather.push({ ...doc.data(), id: doc.id})
+        forecast.push({ ...doc.data(), id: doc.id})
+        
     })
-        console.log(weather.map)
+        
 })
 
 export const auth = app.auth()
 export default app
+
+// forecast is an array with station as an object inside forecast
+// Then an array inside the station object which contains id, location and day
+// But day is an object with several arrays

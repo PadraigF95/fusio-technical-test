@@ -1,8 +1,11 @@
+import { addDoc, setDoc, collection } from 'firebase/firestore';
 import React, { useRef, useState } from 'react'
 import { Form, Button, Card, Alert } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { db } from '../firebase';
+import { useAuth, currentUser } from '../contexts/AuthContext';
+import { db, auth, storage } from '../firebase';
+import { doc } from "firebase/firestore"; 
+
 
 const Registration = () => {
     const emailRef = useRef();
@@ -10,34 +13,56 @@ const Registration = () => {
     const confpasswordRef = useRef();
     const eircodeRef = useRef();
     const photoRef = useRef();
-    const { signup } = useAuth();
+    const { signup, currentUser } = useAuth();
     const [error, setError] = useState('')
     const[loading, setLoading] = useState(false)
     const history = useHistory();
+    
+    const strongRegex = new RegExp("^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$");
 
+    // async function fetchUsers() {
+    //     db.collection("users").add({email: emailRef.current.value, password: passwordRef.current.value, eircode: eircodeRef.current.value})
+    // }
+
+    
    async function handleSubmit(e) {
         e.preventDefault()
-
+    
+        
         if(passwordRef.current.value !== confpasswordRef.current.value){
         
         return setError('Passwords do not match')
     }
 
-    if(passwordRef.current.value <= 8){
-        return setError('Password is not 8 characters')
-    }
+    // if(passwordRef.current.value !== strongRegex){
+    //     return setError('Password needs to be 8 characters with one capital letter, one number and one special character ')
+    // }
+
+    
+     
 
     try {
         setError('')
         setLoading(true)
-        await signup(emailRef.current.value, passwordRef.current.value)
+        await signup(emailRef.current.value, passwordRef.current.value, eircodeRef.current.value)
         history.push('/')
-        db.collection("users").add({email: 'test567@test.com', password: 'password', eircode: 'Y34 FR82'})
     }catch {
             setError('Failed to create an account')
     }
     setLoading(false)
    }
+
+   const saveChange = async()=>{
+    await addDoc(collection(db, "users"), {
+        email: emailRef.current.value,
+        password: passwordRef.current.value,
+        eircode: eircodeRef.current.value
+    }).then(function(res){
+        alert("Data uploaded")
+    }).catch(function(err){
+        alert("Error")
+    })
+}
 
   return (
     <>
@@ -55,17 +80,17 @@ const Registration = () => {
                 <Form.Group id="password">
                     <Form.Label>Password</Form.Label>
 
-                    <Form.Control type='password' placeholder='Password' ref={passwordRef} required />
+                    <Form.Control type='text' placeholder='Password' ref={passwordRef} pattern='^(?=.*[A-Z])(?=.*[!@#$%^])(?=.*[a-z])(?=.*[0-9]).{8}$' required />
                 </Form.Group>
                 <Form.Group id="confirm-password">
                     <Form.Label>Confirm Password</Form.Label>
 
-                    <Form.Control type='password' placeholder='Confirm Password' ref={confpasswordRef} required />
+                    <Form.Control type='password' placeholder='Confirm Password' ref={confpasswordRef} pattern='^(?=.*[A-Z])(?=.*[!@#$%^])(?=.*[a-z])(?=.*[0-9]).{8}$' required />
                 </Form.Group>
                 <Form.Group id="eircode">
                     <Form.Label>Eircode</Form.Label>
 
-                    <Form.Control type='text' placeholder='Eircode' ref={eircodeRef} required />
+                    <Form.Control type='text' placeholder='Eircode' ref={eircodeRef} pattern='^(?=.*[A-Z])(?=.*[0-9])(?=.*[0-9])(?=.*[A-Z])(?=.*[A-Z])(?=.*[0-9])(?=.*[0-9]).{7}$' required />
                     
                 </Form.Group>
                 {/* <Form.Group id="photo">
@@ -74,7 +99,7 @@ const Registration = () => {
                     <Form.Control type='file' ref={photoRef} required />
                 </Form.Group> */}
                 
-                <Button disabled={loading} className='w-100 mt-4' type="submit">Sign Up</Button>
+                <Button disabled={loading} className='w-100 mt-4' type="submit" onClick={saveChange}>Sign Up</Button>
             </Form>
             
         </Card.Body>

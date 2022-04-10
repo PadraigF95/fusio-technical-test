@@ -1,12 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Button, Alert, Form } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext'
 import { useHistory } from 'react-router-dom';
+import { db } from "../firebase"
+import { collection, onSnapshot, doc } from 'firebase/firestore';
 
 export default function Dashboard() {
     const [error, setError ] = useState('');
     const { currentUser, logout } = useAuth();
     const history = useHistory()
+    const [weatherData, setWeatherData] = useState([]);
+    const [search, setSearch] = useState('');
+
+    useEffect(() => 
+     onSnapshot(doc(db, "weather-data", "forecast"), (doc) => {
+         setWeatherData(doc.data())
+         console.log("current data", doc.data())
+            // setWeatherData(snapshot.docs.map(doc => doc.data()))
+        })
+        
+    , [])
+        // console.log(weatherData.station.map())
+   
+    
+    
+    // for (const [key, value] of Object.entries(databaseData)) {
+    //     console.log(`${key}: ${value}`)
+    // }
+     
+        // const dublinData = weatherData[0].station[0].day;
+
+        const handleChange = e => {
+            setSearch(e.target.value)
+          }
+           
+    
+        // const filteredLocations = databaseData.filter(data =>
+        //     data.location.toLowerCase().includes(search.toLowerCase()))
+
 
 
     async function handleLogout(){
@@ -24,7 +55,8 @@ export default function Dashboard() {
    <div className='search-container'>
         <h1 className='search-text'>Search For Character</h1>
         <form className='searchbar'>
-          <input type="search" placeholder="search..." className="search-input" />
+          <input type="search" placeholder="search..." onChange={handleChange} className="search-input" />
+          
         </form>
       </div>
       <div className='table-container'>
@@ -44,9 +76,15 @@ export default function Dashboard() {
                 </tr>
             </thead> 
            <tbody>
+           {console.log(weatherData.station.map(({location}) => {
+               return(
+                  
+                   {location}
+                   
+               )
+           }))}
 
 
-<p>Hello World</p>
 </tbody>
        </table>
        </div>
