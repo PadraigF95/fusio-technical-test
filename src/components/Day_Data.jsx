@@ -1,41 +1,51 @@
 import React from 'react'
+import { Card, Button, Alert, Form } from 'react-bootstrap';
 
-const Day_Data = ({location, date, min_temp, max_temp, wind_speed, wind_dir, wind_speed_night, wind_dir_night}) => {
-    console.log(date)
+const Day_Data = ({location, date, min_temp, max_temp, wind_speed, wind_dir, wind_speed_night, wind_dir_night, handleDelete}) => {
+    
   return (
-    <div>
+    <>
+    <tr>
+      <td className='app__day-data_location'>
+         {location}
+      </td>
+      <td>
+     {Object.keys(date)}
+      </td>
+      <td className='app__day-data_min_temp'>
+       {min_temp}
+      </td>
+      <td>
+        <button>Edit</button>
+        <button>Delete</button>
+      </td>
+      {/* <td className='app__day-data_max_temp'>
 
-      <div>
-        Location {location}
-      </div>
-      <div>
-      Min Temp {min_temp}
-      </div>
-      <div>
+       {max_temp}
+      </td>
 
-      Max Temp {max_temp}
-      </div>
+      <td className='app__day-data_wind_speed'>
+        {wind_speed}
+      </td>
 
-      <div>
-        Wind Speed {wind_speed}
-      </div>
+      <td className='app__day-data_wind_dir'>
+         {wind_dir}
+      </td>
 
-      <div>
-        Wind Dir {wind_dir}
-      </div>
+      <td className='app__day-data_wind_speed_night'>
+         {wind_speed_night}
+      </td>
 
-      <div>
-        Wind Speed(night) {wind_speed_night}
-      </div>
+      <td className='app__day-data_wind_dir_night'>
+         {wind_dir_night}
+      </td>
 
-      <div>
-        Wind Dir(night) {wind_dir_night}
-      </div>
-
-      <div>
-        Actions
-      </div>
-    </div>
+      <td className='app__day-data_actions'>
+       
+      </td> */}
+      </tr>
+      
+    </>
     
   )
 }

@@ -4,3 +4,14 @@
     box-sizing: border-box;
     scroll-behavior: smooth;
 }
+
+.app__day-data_location,
+.app__day-data_min_temp,
+.app__day_data_max_temp,
+.app__day-data_wind_speed,
+.app__day-data_wind_dir,
+.app__day-data_wind_speed_night,
+.app__day-data_wind_dir_night,
+.app__day-data_actions{
+    text-align: center;
+}
