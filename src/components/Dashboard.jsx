@@ -6,7 +6,8 @@ import { db } from "../firebase"
 
 
 import { collection, onSnapshot, doc, getDocs, limit, addDoc, arrayUnion, updateDoc, arrayRemove, deleteDoc, setDoc, orderBy, query } from 'firebase/firestore';
-import Data from './Data';
+
+import Table_data from './Table_data';
 
 
 export default function Dashboard() {
@@ -28,12 +29,9 @@ export default function Dashboard() {
     const [newquery, setNewQuery] = useState("");
     const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+
     
-    // const nameDescending = query(weatherCollectionRef, orderBy("name", "desc"));
-    // const q  = query(weatherCollectionRef, orderBy("location", "asc"));
-   
+    
 
     useEffect(() =>{   
         
@@ -55,18 +53,25 @@ export default function Dashboard() {
        
         }, [])
 
-        console.log(weatherData)
+        
 
       if(loading) return <h1>loading data</h1>
 
       
       function handleClick(e) {
           e.preventDefault();
-          const addDataForm = document.getElementById('location')
+          
           addDoc(weatherCollectionRef, {
-              location: newLocation
+              location: newLocation,
+              date: new Date(newDate),
+              min_temp: parseInt(newMinTemp),
+              max_temp: parseInt(newMaxTemp),
+              wind_speed: parseInt(newWindSpeed),
+              wind_dir: newWindDir,
+              wind_speed_night: parseInt(newWindSpeedNight),
+              wind_dir_night: newWindDirNight
           }).then(() =>{
-            
+            document.getElementById('data-form').reset()
           })
           
       }
@@ -78,32 +83,7 @@ export default function Dashboard() {
 
           const filteredLocations = weatherData.filter(weatherData=> weatherData.location.includes(newquery));
 
-          
-
-
-
-
-        async function deleteData(id){
-           const docRef = doc(db, "data", "days", "day", id);
-           await deleteDoc(docRef)
-        }
-
-        async function handleEdit(id){
-            
-            
-            const docRef = doc(db, "data", "days", "day", id);
-
-            
-           await updateDoc(docRef, {
-               location: newLocation
-           })
-        }
-
-        async function handleFilter(){
-
-        }
            
-        
         if(weatherData === undefined){
             return <h1>Loading</h1>
         }
@@ -134,7 +114,7 @@ export default function Dashboard() {
             <thead className="thead-dark">
                 <tr>
                 <th className='name-heading'>Location</th>
-                <button>filter</button>
+                
                 <th className='height-heading'>Date</th>
                 <th className='mass-heading'>Min Temp</th>
                 <th className='created-heading'>Max Temp</th>
@@ -150,44 +130,23 @@ export default function Dashboard() {
               
            
 
-{/*            
-            {weatherData.station.map(station => {
-                
-                return(
-                    
-                    <Data key={station.id}
-                    location = {station.location}
-                    day = {station.day}
-                    
-                    />
-
-                    
-                )
-            })} */}
-           {/* {days.map(day =>
-            <h1>{day.location}</h1>)} */}
 
 
             {filteredLocations.map(weatherData => {
                 
+                
                 return(
-                    <div>
-                        <ul>
-                            <button onClick={handleShow}>
-                                edit
-                            </button>
-                            <button onClick={() => deleteData(weatherData.id)}>
-                                delete
-                            </button>
-                        <li key={weatherData.id}>
-                        {weatherData.location}
-                        {weatherData.min_temp}
-                        {weatherData.max_temp}
-                    </li>
-                        </ul>
-                        
-                        
-                    </div>
+                    <Table_data key={weatherData.id}
+                        id ={weatherData.id}
+                        date= {weatherData.date}
+                        location = {weatherData.location}
+                        min_temp = {weatherData.min_temp}
+                        max_temp = {weatherData.max_temp}
+                        wind_speed= {weatherData.wind_speed}
+                        wind_dir = {weatherData.wind_dir}
+                        wind_speed_night = {weatherData.wind_speed_night}
+                        wind_dir_night = {weatherData.wind_dir_night}
+                    />
                 )
             })}
 
@@ -198,7 +157,7 @@ export default function Dashboard() {
 
        <div>
            <div>
-               <h1>Add New / Edit</h1>
+               <h1>Add New</h1>
            </div>
            <div>
                <Form id="data-form">
@@ -209,72 +168,46 @@ export default function Dashboard() {
                 </Form.Group>
 
                 
-                {/* <Form.Group id="email">
+                <Form.Group id="date">
                     <Form.Label>Date</Form.Label>
 
                     <Form.Control type='date' placeholder='Date'  onChange={(event) => {setNewDate(event.target.value)}} required />
                 </Form.Group>
-                <Form.Group id="email">
+                <Form.Group id="min_temp">
                     <Form.Label>Min Temp</Form.Label>
 
                     <Form.Control type='number' placeholder='Mininum Temperature'  onChange={(event) => {setNewMinTemp(event.target.value)}} required />
-                </Form.Group> */}
-                {/* <Form.Group id="email">
+                </Form.Group>
+                <Form.Group id="max_temp">
                     <Form.Label>Max Temp</Form.Label>
 
                     <Form.Control type='number' placeholder='Maximun Temperature'  onChange={(event) => {setNewMaxTemp(event.target.value)}} required />
                 </Form.Group>
-                <Form.Group id="email">
+                <Form.Group id="wind_speed">
                     <Form.Label>Wind Speed</Form.Label>
 
-                    <Form.Control type='Number' placeholder='Wind Speed'  onChange={(event) => {setNewWindSpeed(event.target.value)}}  required />
+                    <Form.Control type='number' placeholder='Wind Speed'  onChange={(event) => {setNewWindSpeed(event.target.value)}}  required />
                 </Form.Group>
-                <Form.Group id="email">
+                <Form.Group id="wind_direction">
                     <Form.Label>Wind Direction</Form.Label>
 
                     <Form.Control type='text' placeholder='Wind Direction'  onChange={(event) => {setNewWindDir(event.target.value)}}  required />
                 </Form.Group>
-                <Form.Group id="email">
+                <Form.Group id="wind_speed_night">
                     <Form.Label>Wind Speed(Night)</Form.Label>
 
                     <Form.Control type='number' placeholder='Wind Speed(night)'  onChange={(event) => {setNewWindSpeedNight(event.target.value)}}  required />
                 </Form.Group>
-                <Form.Group id="email">
+                <Form.Group id="wind_dir_night">
                     <Form.Label>Wind Direction(night)</Form.Label>
 
                     <Form.Control type='text' placeholder='Wind Direction(night)'  onChange={(event) => {setnewWindDirNight(event.target.value)}} required />
-                </Form.Group> */}
+                </Form.Group>
                
                 <Button onClick={handleClick}>Add Data</Button>
                </Form>
-               <Button variant="primary" onClick={handleShow}>
-        Launch demo modal
-      </Button>
-
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-            <form>
-                    <input type="text"
-                    
-                    placeholder='Location'
-                    onChange={(event) => {setNewLocation(event.target.value)}}
-                    value={weatherData.location} 
-                    />
-                    <button onClick={() =>(handleEdit({location: newLocation, id:weatherData.id}))}>Update</button>
-            </form>
-            </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
+               
+              
               
            </div>
        </div>

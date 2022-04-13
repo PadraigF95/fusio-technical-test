@@ -9,10 +9,10 @@ import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 
 const Registration = () => {
-    const emailRef = useRef();
-    const passwordRef = useRef();
-    const confpasswordRef = useRef();
-    const eircodeRef = useRef();
+    const emailRef = useRef('');
+    const passwordRef = useRef('');
+    const confpasswordRef = useRef('');
+    const eircodeRef = useRef(0);
     const photoRef = useRef();
     const { signup, currentUser } = useAuth();
     const [error, setError] = useState('')
@@ -22,6 +22,7 @@ const Registration = () => {
     const [data, setData] = useState({});
     
     const strongRegex = new RegExp("^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$");
+    const eircodeRegex = new RegExp('')
 
     // async function fetchUsers() {
     //     db.collection("users").add({email: emailRef.current.value, password: passwordRef.current.value, eircode: eircodeRef.current.value})
@@ -99,11 +100,7 @@ const Registration = () => {
         email: emailRef.current.value,
         password: passwordRef.current.value,
         eircode: eircodeRef.current.value
-    }).then(function(res){
-        alert("Data uploaded")
-    }).catch(function(err){
-        alert("Error")
-    })
+    }, {merge: true})
 }
 
   return (
@@ -122,23 +119,29 @@ const Registration = () => {
                 <Form.Group id="password">
                     <Form.Label>Password</Form.Label>
 
-                    <Form.Control type='text' placeholder='Password' ref={passwordRef} pattern='^(?=.*[A-Z])(?=.*[!@#$%^])(?=.*[a-z])(?=.*[0-9]).{8}$' required />
+                    <Form.Control type='text' placeholder='Password' ref={passwordRef} pattern='^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$' required />
                 </Form.Group>
                 <Form.Group id="confirm-password">
                     <Form.Label>Confirm Password</Form.Label>
 
-                    <Form.Control type='password' placeholder='Confirm Password' ref={confpasswordRef} pattern='^(?=.*[A-Z])(?=.*[!@#$%^])(?=.*[a-z])(?=.*[0-9]).{8}$' required />
+                    <Form.Control type='password' placeholder='Confirm Password' ref={confpasswordRef} pattern='^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$' required />
                 </Form.Group>
                 <Form.Group id="eircode">
                     <Form.Label>Eircode</Form.Label>
 
-                    <Form.Control type='text' placeholder='Eircode' ref={eircodeRef} pattern='^(?=.*[A-Z])(?=.*[0-9])(?=.*[0-9])(?=.*[A-Z])(?=.*[A-Z])(?=.*[0-9])(?=.*[0-9]).{7}$' required />
+                    <Form.Control type='text' placeholder='Eircode' ref={eircodeRef} pattern='([AC-FHKNPRTV-Y]\d{2}|D6W)[0-9AC-FHKNPRTV-Y]{4}' required />
                     
                 </Form.Group>
                 <Form.Group id="photo">
                     <Form.Label>Photo</Form.Label>
 
                     <Form.Control type='file' ref={photoRef} onChange={(e) => setFile(e.target.files[0])} required />
+                    <div className='image-container'>
+                    <img src={ file
+                    ? URL.createObjectURL(file):
+                    "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg" } alt="profile Image"/>
+                    </div>
+                   
                 </Form.Group>
                 
                 <Button disabled={loading} className='w-100 mt-4' type="submit" onClick={saveChange}>Sign Up</Button>
