@@ -28,18 +28,12 @@ export default function Dashboard() {
     const weatherCollectionRef = collection(db, "data", "days", "day")
     const [newquery, setNewQuery] = useState("");
     const [show, setShow] = useState(false);
-
+    const [order, setOrder] = useState("ASC")
 
     
     
 
     useEffect(() =>{   
-        
-        // fetch("/data").then(res => {
-        //     if(res.ok) {
-        //         return res.json()
-        //     }
-        // }). then(jsonRes => setDays(jsonRes))
     
      onSnapshot(weatherCollectionRef, (snapshot) => {
          setWeatherData(snapshot.docs.map(doc=> ({...doc.data(), id: doc.id}))
@@ -56,6 +50,21 @@ export default function Dashboard() {
         
 
       if(loading) return <h1>loading data</h1>
+
+      const sorting = (col) => {
+          if (order === "ASC") {
+              const sorted = [...weatherData].sort((a, b) =>
+              a[col] > b[col] ? 1 : -1)
+              setWeatherData(sorted);
+              setOrder("DSC")
+          } 
+          if (order === "DSC") {
+              const sorted = [...weatherData].sort((a, b) =>
+              a[col] < b[col] ? 1 : -1);
+              setWeatherData(sorted);
+              setOrder("ASC")
+          }
+      }
 
       
       function handleClick(e) {
@@ -113,15 +122,15 @@ export default function Dashboard() {
       <table className="table">
             <thead className="thead-dark">
                 <tr>
-                <th className='name-heading'>Location</th>
+                <th className='name-heading' onClick={() => sorting("location")}>Location</th>
                 
-                <th className='height-heading'>Date</th>
-                <th className='mass-heading'>Min Temp</th>
-                <th className='created-heading'>Max Temp</th>
-                <th className='edited-heading'>Wind Speed</th>
-                <th className='homeworld-heading'>Wind Dir</th>
-                <th className='homeworld-heading'>Wind Speed Night</th>
-                <th className='homeworld-heading'>Wind Dir Night</th>
+                <th className='height-heading' onClick={() => sorting("date")}>Date</th>
+                <th className='mass-heading' onClick={() => sorting("min_temp")}>Min Temp</th>
+                <th className='created-heading' onClick={() => sorting("max_temp")}>Max Temp</th>
+                <th className='edited-heading'onClick={() => sorting("wind_speed")}>Wind Speed</th>
+                <th className='homeworld-heading' onClick={() => sorting("wind_dir")}>Wind Dir</th>
+                <th className='homeworld-heading' onClick={() => sorting("wind_speed_night")}>Wind Speed Night</th>
+                <th className='homeworld-heading' onClick={() => sorting("wind_dir_night")}>Wind Dir Night</th>
                 <th className='homeworld-heading'>Actions</th>
                 
                 </tr>
@@ -159,7 +168,7 @@ export default function Dashboard() {
            <div>
                <h1>Add New</h1>
            </div>
-           <div>
+           <div className='add-form'>
                <Form id="data-form">
                <Form.Group id="location">
                     <Form.Label>Location</Form.Label>
