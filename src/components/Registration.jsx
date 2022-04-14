@@ -1,6 +1,6 @@
 import { addDoc, setDoc, collection } from 'firebase/firestore';
 import React, { useEffect, useRef, useState } from 'react'
-import { Form, Button, Card, Alert } from 'react-bootstrap';
+import { Form, Button, Card, Alert, Col, Row } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth, currentUser } from '../contexts/AuthContext';
 import { db, auth, storage } from '../firebase';
@@ -14,19 +14,16 @@ const Registration = () => {
     const confpasswordRef = useRef('');
     const eircodeRef = useRef(0);
     const photoRef = useRef();
-    const { signup, currentUser } = useAuth();
+    const { signup} = useAuth();
     const [error, setError] = useState('')
     const[loading, setLoading] = useState(false)
     const history = useHistory();
     const [file, setFile] = useState("");
     const [data, setData] = useState({});
     
-    const strongRegex = new RegExp("^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$");
-    const eircodeRegex = new RegExp('')
+    
 
-    // async function fetchUsers() {
-    //     db.collection("users").add({email: emailRef.current.value, password: passwordRef.current.value, eircode: eircodeRef.current.value})
-    // }
+  
 
     useEffect(() => {
         const uploadFile = () => {
@@ -77,12 +74,16 @@ const Registration = () => {
         return setError('Passwords do not match')
     }
 
-    // if(passwordRef.current.value !== strongRegex){
-    //     return setError('Password needs to be 8 characters with one capital letter, one number and one special character ')
+    // if(passwordRef.current.value !== '^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$') {
+    //     return setError('Password needs to have One capital, One number and One special Character')
     // }
 
-    
-     
+    // if(eircodeRef.current.value !== '([AC-FHKNPRTV-Y]\d{2}|D6W)[0-9AC-FHKNPRTV-Y]{4}') {
+    //     return setError('Please Enter a valid Eircode No Spaces, example A01BC23')
+    // }
+
+   
+
 
     try {
         setError('')
@@ -111,31 +112,42 @@ const Registration = () => {
             
             {error && <Alert variant='danger'>{error}</Alert> }
             <Form onSubmit={handleSubmit}>
-                <Form.Group id="email">
-                    <Form.Label>Email</Form.Label>
+                <Form.Group id="email" as={Row} className="mt-4">
+                    <Form.Label column sm='2'>Email</Form.Label>
 
+                    <Col sm="10">
                     <Form.Control type='email' placeholder='Email Address' ref={emailRef} required />
-                </Form.Group>
-                <Form.Group id="password">
-                    <Form.Label>Password</Form.Label>
+                    </Col>
 
+                </Form.Group>
+                <Form.Group id="password" as={Row} className="mt-4">
+                    <Form.Label column sm='2'>Password</Form.Label>
+
+                    <Col sm="10">
                     <Form.Control type='text' placeholder='Password' ref={passwordRef} pattern='^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$' required />
-                </Form.Group>
-                <Form.Group id="confirm-password">
-                    <Form.Label>Confirm Password</Form.Label>
+                    </Col>
 
+                </Form.Group>
+
+                <Form.Group id="confirm-password" as={Row} className="mt-4">
+                    <Form.Label column sm='2'>Confirm Password</Form.Label>
+                    <Col sm='10'>
                     <Form.Control type='password' placeholder='Confirm Password' ref={confpasswordRef} pattern='^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$' required />
+                    </Col>
                 </Form.Group>
-                <Form.Group id="eircode">
-                    <Form.Label>Eircode</Form.Label>
 
+                <Form.Group id="eircode" as={Row} className="mt-4">
+                    <Form.Label column sm = "2">Eircode</Form.Label>
+                    <Col sm="10">
                     <Form.Control type='text' placeholder='Eircode' ref={eircodeRef} pattern='([AC-FHKNPRTV-Y]\d{2}|D6W)[0-9AC-FHKNPRTV-Y]{4}' required />
+                    </Col>
                     
                 </Form.Group>
-                <Form.Group id="photo">
-                    <Form.Label>Photo</Form.Label>
-
+                <Form.Group id="photo" as={Row} className="mt-4">
+                    <Form.Label column = "2">Photo</Form.Label>
+                    <Col sm="10">
                     <Form.Control type='file' ref={photoRef} onChange={(e) => setFile(e.target.files[0])} required />
+                    </Col>
                     <div className='image-container'>
                     <img src={ file
                     ? URL.createObjectURL(file):

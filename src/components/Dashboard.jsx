@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Button, Alert, Form, Modal } from 'react-bootstrap';
+import { Card, Button, Alert, Form, Modal, Row,Col } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext'
 import { useHistory } from 'react-router-dom';
 import { db } from "../firebase"
+import { AiOutlineSearch } from 'react-icons/ai'
 
 
 import { collection, onSnapshot, doc, getDocs, limit, addDoc, arrayUnion, updateDoc, arrayRemove, deleteDoc, setDoc, orderBy, query } from 'firebase/firestore';
@@ -112,9 +113,18 @@ export default function Dashboard() {
   return (
     <>
    <div className='search-container'>
-        <h1 className='search-text'>Search For Character</h1>
+        
         <form className='searchbar'>
-          <input type="search" placeholder="search by county" onChange={handleChange} className="search-input" />
+        <AiOutlineSearch className='search-icon'/>
+          <input 
+          
+          type="search" 
+          
+          placeholder="search by county" 
+          onChange={handleChange}
+           className="search-input" 
+           />
+           
           
         </form>
       </div>
@@ -165,57 +175,89 @@ export default function Dashboard() {
        </div>
 
        <div>
-           <div>
-               <h1>Add New</h1>
+           <div className='add-data-form-heading'>
+               <h1 className='add-data-form-title'>Add New</h1>
            </div>
            <div className='add-form'>
                <Form id="data-form">
-               <Form.Group id="location">
-                    <Form.Label>Location</Form.Label>
-
-                    <Form.Control type='text' placeholder='Location' onChange={(event) => {setNewLocation(event.target.value)}}  required />
+               <Form.Group id="location" as={Row}>
+                    <Form.Label column sm="2">Location</Form.Label>
+                    <Col sm="10">
+                    {/* <Form.Control type='text' placeholder='Location' onChange={(event) => {setNewLocation(event.target.value)}}  required /> */}
+                    <Form.Select placeholder=""  onClick={(event) => {setNewLocation(event.target.value)}} required>
+                        <option></option>
+                        <option value="Dublin">Dublin</option>
+                        <option value="Wexford">Wexford</option>
+                        <option value ="Cork">Cork</option>
+                        <option value="Kerry">Kerry</option>
+                        <option value="Galway">Galway</option>
+                        <option value="Donegal">Donegal</option>
+                        <option value="Offaly">Offaly</option>
+                        <option value="Mayo">Mayo</option>
+                        <option value="Belfast">Belfast</option>
+                       
+                    </Form.Select>
+                    </Col>
+                    
                 </Form.Group>
 
                 
-                <Form.Group id="date">
-                    <Form.Label>Date</Form.Label>
-
-                    <Form.Control type='date' placeholder='Date'  onChange={(event) => {setNewDate(event.target.value)}} required />
+                <Form.Group id="date" as={Row} className="mt-4">
+                    <Form.Label column sm="2">Date</Form.Label>
+                    <Col sm="10">
+                    <Form.Control type='date' placeholder='Date'  onClick={(event) => {setNewDate(event.target.value)}} required />
+                    </Col>
+                    
                 </Form.Group>
-                <Form.Group id="min_temp">
-                    <Form.Label>Min Temp</Form.Label>
 
-                    <Form.Control type='number' placeholder='Mininum Temperature'  onChange={(event) => {setNewMinTemp(event.target.value)}} required />
+                <Form.Group id="min_temp" as={Row} className="mt-4">
+                    <Form.Label column sm="2">Min Temp</Form.Label>
+                    <Col sm="10">
+                    <Form.Control type='number' placeholder='Number'  onChange={(event) => {setNewMinTemp(event.target.value)}} required />
+                    </Col>
                 </Form.Group>
-                <Form.Group id="max_temp">
-                    <Form.Label>Max Temp</Form.Label>
 
-                    <Form.Control type='number' placeholder='Maximun Temperature'  onChange={(event) => {setNewMaxTemp(event.target.value)}} required />
+                <Form.Group id="max_temp" as={Row} className="mt-4">
+                    <Form.Label column sm="2">Max Temp</Form.Label>
+                    <Col sm="10">
+                    <Form.Control type='number' placeholder='Number'  onChange={(event) => {setNewMaxTemp(event.target.value)}} required />
+                    </Col>
                 </Form.Group>
-                <Form.Group id="wind_speed">
-                    <Form.Label>Wind Speed</Form.Label>
 
-                    <Form.Control type='number' placeholder='Wind Speed'  onChange={(event) => {setNewWindSpeed(event.target.value)}}  required />
+                <Form.Group id="wind_speed" as={Row} className="mt-4">
+                    <Form.Label column sm="2">Wind Speed</Form.Label>
+                    <Col sm="10">
+                    <Form.Control type='number' placeholder='Number'  onChange={(event) => {setNewWindSpeed(event.target.value)}}  required />
+                    </Col>
+
                 </Form.Group>
-                <Form.Group id="wind_direction">
-                    <Form.Label>Wind Direction</Form.Label>
 
-                    <Form.Control type='text' placeholder='Wind Direction'  onChange={(event) => {setNewWindDir(event.target.value)}}  required />
+                <Form.Group id="wind_direction" as={Row} className="mt-4">
+                    <Form.Label column sm="2">Wind Direction</Form.Label>
+                    <Col sm="10">
+                    <Form.Control type='text' placeholder='Cardinal Direction'  onChange={(event) => {setNewWindDir(event.target.value)}}  required />
+                    </Col>
                 </Form.Group>
-                <Form.Group id="wind_speed_night">
-                    <Form.Label>Wind Speed(Night)</Form.Label>
 
-                    <Form.Control type='number' placeholder='Wind Speed(night)'  onChange={(event) => {setNewWindSpeedNight(event.target.value)}}  required />
+                <Form.Group id="wind_speed_night" as={Row} className="mt-4">
+                    <Form.Label column sm="2">Wind Speed(Night)</Form.Label>
+                        <Col sm="10">
+                        <Form.Control type='number' placeholder='Number'  onChange={(event) => {setNewWindSpeedNight(event.target.value)}}  required />
+                        </Col>
                 </Form.Group>
-                <Form.Group id="wind_dir_night">
-                    <Form.Label>Wind Direction(night)</Form.Label>
-
-                    <Form.Control type='text' placeholder='Wind Direction(night)'  onChange={(event) => {setnewWindDirNight(event.target.value)}} required />
+                <Form.Group id="wind_dir_night" as={Row} className="mt-4">
+                    <Form.Label column sm="2">Wind Direction(Night)</Form.Label>
+                    <Col sm="10">
+                        <Form.Control type='text' placeholder='Cardinal Direction'  onChange={(event) => {setnewWindDirNight(event.target.value)}} required />
+                    </Col>
                 </Form.Group>
                
-                <Button onClick={handleClick}>Add Data</Button>
+                
+               <div  className="add-data-button">
+
+               <Button onClick={handleClick}>Add Data</Button>
+               </div>
                </Form>
-               
               
               
            </div>

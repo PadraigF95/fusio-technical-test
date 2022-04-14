@@ -5,15 +5,31 @@
     scroll-behavior: smooth;
 }
 
-.app__day-data_location,
-.app__day-data_min_temp,
-.app__day_data_max_temp,
-.app__day-data_wind_speed,
-.app__day-data_wind_dir,
-.app__day-data_wind_speed_night,
-.app__day-data_wind_dir_night,
-.app__day-data_actions{
+
+
+
+.data-action{
+    display: flex;
+    justify-content: space-around;
+    
+}
+
+.data-edit{
+    cursor: pointer;
+    color: blue;
+}
+
+.data-delete{
+    cursor: pointer;
+    color: red
+}
+
+
+
+
+.add-data-form-heading{
     text-align: center;
+    padding-bottom: 2rem;
 }
 
 .image-container{
@@ -30,9 +46,79 @@ img {
   }
 
   .table-container{
-      width:100%
+      width:100%;
+      height: 350px;
+      overflow: hidden;
+      overflow-y: scroll;
   }
 
   .table{
+    border: 1px solid;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .search_container{
+    
+   
+  }
+
+  .searchbar{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+ .search_text{
+     text-align: center;
+     
+ }
+
+  .search-input{
+    width: 100%; 
+   border-radius: 15px;
+   border: 1px #000 solid;
+    padding: 5px 5px 5px 25px;
+  }
+
+  .search-icon{}
+
+ 
+
+  tr td{
+      background-color: #fff;
+      text-align: left;
+    
       
   }
+
+  tr:nth-child(even)
+{
+    background-color: #ccc;
+}
+
+.data-location,
+.data-date,
+.data-min_temp,
+.data-max_temp,
+.data-wind_speed,
+.data-wind_dir,
+.data-wind_speed,
+.data-wind_speed_night,
+.data-wind_dir_night,
+.data-action{
+    line-height: 15px;
+}
+
+.add-data-button{
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 4rem;
+}
+
+.form-grid{
+    display: grid;
+   
+    
+}
+

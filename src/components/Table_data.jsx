@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { db } from "../firebase"
 
 import { Card, Button, Alert, Form, Modal } from 'react-bootstrap';
+import '../index.css'
 
 import { collection, onSnapshot, doc, getDocs, limit, addDoc, arrayUnion, updateDoc, arrayRemove, deleteDoc, setDoc, orderBy, query } from 'firebase/firestore';
 const Table_data = ({location, min_temp, max_temp, id, date, wind_speed, wind_dir, wind_speed_night, wind_dir_night}) => {
@@ -19,10 +20,21 @@ const Table_data = ({location, min_temp, max_temp, id, date, wind_speed, wind_di
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   
-  console.log([ location ])
+  
 
+  let filteredDates = date.seconds;
 
+  let formatDates = new Date(date.seconds * 1000)
 
+  
+
+  let normalDate = new Date(formatDates).toLocaleString('en-GB', {timezone: 'UTC'})
+
+  
+
+  console.log(normalDate)
+
+  
  
 
     async function deleteData(id){
@@ -54,28 +66,32 @@ const Table_data = ({location, min_temp, max_temp, id, date, wind_speed, wind_di
     <tr>
 
        
-        <td>{location}</td>
-        <td></td>
-        <td>{min_temp}</td>
-        <td>{max_temp}</td>
-        <td>{wind_speed}</td>
-        <td>{wind_dir}</td>
-        <td>{wind_speed_night}</td>
-        <td>{wind_dir_night}</td>
-        <div>
-        <button onClick={() => deleteData(id)}>Delete</button>
-        <button onClick={handleShow}>Edit</button>
-        </div>
+        <td className='data-location'>{location}</td>
+        <td className='data-date'>{normalDate.substring(0,10)}</td>
+        <td className='data-min_temp'>{min_temp}</td>
+        <td className='data-max_temp'>{max_temp}</td>
+        <td className='data-wind_speed'>{wind_speed}</td>
+        <td className='data-wind_dir'>{wind_dir}</td>
+        <td className='data-wind_speed_night'>{wind_speed_night}</td>
+        <td className='data-wind_dir_night'>{wind_dir_night}</td>
+        <td className='data-action'>
+        <p className='data-edit' onClick={handleShow}>Edit</p>
+        <p>|</p>
+        <p className='data-delete' onClick={() => deleteData(id)}>Delete</p>
+        
+        </td>
+        
+        
        
     </tr>
 
     
     <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Edit Data</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <form>
+            <form className='form-grid'>
                     <input type="text"
                     defaultValue={location}
                     placeholder='Location'
@@ -84,36 +100,43 @@ const Table_data = ({location, min_temp, max_temp, id, date, wind_speed, wind_di
                     <input type="date"
                     defaultValue={date}
                     placeholder='Date'
+                    className='mt-2'
                     onChange={(event) => {setNewDate(event.target.value)}}
                     />
                     <input type="number"
                     defaultValue={min_temp}
                     placeholder='Min Temp'
+                    className='mt-2'
                     onChange={(event) => {setNewMinTemp(event.target.value)}}
                     />
                     <input type="number"
                     defaultValue={max_temp}
                     placeholder='Max Temp'
+                    className='mt-2'
                     onChange={(event) => {setNewMaxTemp(event.target.value)}}
                     />
                     <input type="number"
                     defaultValue={wind_speed}
                     placeholder='Wind Speed'
+                    className='mt-2'
                     onChange={(event) => {setNewWindSpeed(event.target.value)}}
                     />
                     <input type="text"
                     defaultValue={wind_dir}
                     placeholder='Wind Dir'
+                    className='mt-2'
                     onChange={(event) => {setNewWindDir(event.target.value)}}
                     />
                     <input type="number"
                     defaultValue={wind_speed_night}
                     placeholder='Wind Speed Night'
+                    className='mt-2'
                     onChange={(event) => {setNewWindSpeedNight(event.target.value)}}
                     />
                     <input type="text"
                     defaultValue={wind_dir_night}
                     placeholder='Wind Direction Night'
+                    className='mt-2'
                     onChange={(event) => {setnewWindDirNight(event.target.value)}}
                     />
                     
