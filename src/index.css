@@ -11,20 +11,31 @@
 
 .data-action{
     display: flex;
-    justify-content: space-around;
-    
+   justify-content: space-between;
+   align-content: center;
+   text-align: center;
+   
 }
 
 .data-edit{
     cursor: pointer;
     color: blue;
+   
+    vertical-align: middle;
 }
+
+
 
 .data-delete{
     cursor: pointer;
-    color: red
+    color: red;
+    
+    
 }
 
+p{
+    margin-bottom: 0
+}
 
 .add-data-form-heading{
     text-align: center;
@@ -108,7 +119,7 @@ img {
     line-height: 10px;
     border-right: solid 1px;
     border-left: solid 1px;
-    
+    vertical-align: middle;
       
   }
 
@@ -116,6 +127,7 @@ img {
 {
     background-color: #ccc;
 }
+
 
 
 
@@ -153,7 +165,13 @@ img {
     margin: 0 1rem;
     cursor: pointer;
     color: white;
-    padding: 10px 20px 0px
+    padding: 10px 20px 0px;
+    
+}
+
+p{
+    vertical-align: middle;
+    
 }
 
 .app__navbar-links a{
@@ -162,6 +180,7 @@ color: white;
 display: flex;
 justify-content: center;
 align-items: center;
+
 }
 
 .app__navbar-links a:hover{
@@ -342,6 +361,8 @@ align-items: center;
     justify-content: center;
     align-items: center;
   }
+
+  
 
 @media screen  and (max-width: 1150px){
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Button, Alert, Form, Modal, Row,Col } from 'react-bootstrap';
+import {  Button, Form, Row,Col } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext'
 
 import { useHistory } from 'react-router-dom';
@@ -7,10 +7,11 @@ import { db } from "../firebase"
 import { AiOutlineSearch } from 'react-icons/ai'
 import { TiArrowSortedDown,TiArrowSortedUp } from 'react-icons/ti'
 
-import { collection, onSnapshot, doc, getDocs, limit, addDoc, arrayUnion, updateDoc, arrayRemove, deleteDoc, setDoc, orderBy, query } from 'firebase/firestore';
+import { collection, onSnapshot, addDoc,  } from 'firebase/firestore';
 
 import Table_data from './Table_data';
 import Navbar from './Navbar';
+
 
 
 export default function Dashboard() {
@@ -31,8 +32,8 @@ export default function Dashboard() {
     const [newquery, setNewQuery] = useState("");
     const [show, setShow] = useState(false);
     const [order, setOrder] = useState("ASC")
-    const passwordRegex = new RegExp(/^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/)
-    const r  = new RegExp(/\d{3}/)
+    
+    
     
     
 
@@ -91,7 +92,7 @@ export default function Dashboard() {
           }).then(() =>{
             document.getElementById('data-form').reset()
           })
-          console.log(newDate)
+          
       }
       
         const handleChange = e => {
@@ -106,7 +107,7 @@ export default function Dashboard() {
             return <h1>Loading</h1>
         }
     
-        console.log(passwordRegex.test('Cookie2#'))
+        
 
    
   return (
@@ -290,6 +291,7 @@ export default function Dashboard() {
               
               
            </div>
+           
            
        </div>
     )}

@@ -6,6 +6,7 @@ import { Button, Modal } from 'react-bootstrap';
 import '../index.css'
 
 import { doc,  deleteDoc, setDoc } from 'firebase/firestore';
+
 const Table_data = ({location, min_temp, max_temp, id, date, wind_speed, wind_dir, wind_speed_night, wind_dir_night}) => {
     const [show, setShow] = useState(false);
     const [newLocation, setNewLocation] = useState(location)
@@ -61,9 +62,11 @@ const Table_data = ({location, min_temp, max_temp, id, date, wind_speed, wind_di
            
        })
     }
+   
   return (
+    
     <>
-     
+
     <tr className='data-values'>
 
        
@@ -83,12 +86,14 @@ const Table_data = ({location, min_temp, max_temp, id, date, wind_speed, wind_di
         <p className='data-delete' onClick={() => deleteData(id)}>Delete</p>
         
         </td>
+       
         )}
         
-        
+       
        
     </tr>
 
+          
     
     <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -154,7 +159,7 @@ const Table_data = ({location, min_temp, max_temp, id, date, wind_speed, wind_di
           
         </Modal.Footer>
       </Modal>
-
+     
       
     </>
   )

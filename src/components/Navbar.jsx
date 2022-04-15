@@ -44,7 +44,7 @@ const Navbar = () => {
                 <nav className='app__navbar'>
                   
                     <ul className='app__navbar-links'>
-                        <li>Signed In as: {currentUser.email}</li>
+                        <li className='app__current-user_email'>Signed In as: {currentUser.email}</li>
                         <li onClick={handleLogout}>Logout</li>
                     </ul>
                 </nav>
@@ -77,8 +77,8 @@ const Navbar = () => {
                      <nav>
                        
                          <ul className='app__navbar-smallscreen_links'>
-                             <li><a href=''>Signed In as: {currentUser.email}</a></li>
-                             <li onClick={handleLogout}><a href="">Logout</a></li>
+                             <li><a href='#' className='app__current-user_email'>Signed In as: {currentUser.email}</a></li>
+                             <li onClick={handleLogout}><a href="#">Logout</a></li>
                          </ul>
                      </nav>
      
