@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { db } from "../firebase"
+import { useAuth } from '../contexts/AuthContext';
 
 import { Button, Modal } from 'react-bootstrap';
 import '../index.css'
@@ -15,7 +16,7 @@ const Table_data = ({location, min_temp, max_temp, id, date, wind_speed, wind_di
     const [newWindDir, setNewWindDir] = useState(wind_dir);
     const [newWindSpeedNight, setNewWindSpeedNight] = useState(wind_speed_night);
     const [newWindDirNight, setnewWindDirNight] = useState(wind_dir_night);
-   
+   const { currentUser } = useAuth()
     
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -74,12 +75,15 @@ const Table_data = ({location, min_temp, max_temp, id, date, wind_speed, wind_di
         <td className='data-wind_dir'>{wind_dir}</td>
         <td className='data-wind_speed_night'>{wind_speed_night}</td>
         <td className='data-wind_dir_night'>{wind_dir_night}</td>
+        {currentUser && (
+
         <td className='data-action'>
         <p className='data-edit' onClick={handleShow}>Edit</p>
         <p>|</p>
         <p className='data-delete' onClick={() => deleteData(id)}>Delete</p>
         
         </td>
+        )}
         
         
        

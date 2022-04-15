@@ -384,6 +384,6 @@ align-items: center;
  
     .sort_icon_asc,
     .sort_icon_dsc{
-        transform: scale(.8);
+        transform: scale(1.5);
     }
 }

@@ -32,6 +32,7 @@ const Navbar = () => {
                        <ul className='app__navbar-links'>
                            <li><a href='/registration'>Register</a></li>
                            <li><a href="/login">Login</a></li>
+                           <li><a href="/">Dashboard</a></li>
                        </ul>
                    </nav>
                  </div>
@@ -66,6 +67,7 @@ const Navbar = () => {
                        <ul className='app__navbar-smallscreen_links'>
                            <li><a href='/registration'>Register</a></li>
                            <li><a href="/login">Login</a></li>
+                           <li><a href="/">Dashboard</a></li>
                        </ul>
                    </nav>
                  </div>

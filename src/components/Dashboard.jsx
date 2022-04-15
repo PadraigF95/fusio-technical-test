@@ -14,7 +14,6 @@ import Navbar from './Navbar';
 
 
 export default function Dashboard() {
-    const [error, setError ] = useState('');
     const { currentUser, logout } = useAuth();
     const history = useHistory()
     const [weatherData, setWeatherData] = useState([]);
@@ -62,9 +61,7 @@ export default function Dashboard() {
               setWeatherData(sorted);
               setOrder("DSC")
           } 
-            else{
-                return 0;
-            }
+            
       }
 
       const sortingASC = (col) => {
@@ -75,9 +72,7 @@ export default function Dashboard() {
             setOrder("ASC")
         }
 
-        else{
-            return 0
-        }
+        
       }
 
       
@@ -170,7 +165,10 @@ export default function Dashboard() {
                 <TiArrowSortedUp className="sort_icon_asc" onClick={() => sortingASC('wind_dir_night')}/>
                 <TiArrowSortedDown className='sort_icon_dsc' onClick={() => sortingDSC('wind_dir_night')}/>
                 </th>
+                {currentUser && (
+
                 <th className='homeworld-heading'>Actions</th>
+                )}
                 
                 </tr>
             </thead> 
@@ -202,6 +200,8 @@ export default function Dashboard() {
 </tbody>
        </table>
        </div>
+{currentUser && (
+
 
        <div className='add-data-from'>
            <div className='add-data-form-heading'>
@@ -290,8 +290,9 @@ export default function Dashboard() {
               
               
            </div>
+           
        </div>
-    
+    )}
     </>
   )
 }

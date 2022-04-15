@@ -1,10 +1,10 @@
-import { addDoc, setDoc, collection } from 'firebase/firestore';
+import { addDoc,  collection } from 'firebase/firestore';
 import React, { useEffect, useRef, useState } from 'react'
 import { Form, Button, Card, Alert, Col, Row } from 'react-bootstrap';
-import { Link, useHistory } from 'react-router-dom';
-import { useAuth, currentUser } from '../contexts/AuthContext';
-import { db, auth, storage } from '../firebase';
-import { doc } from "firebase/firestore"; 
+import { useHistory } from 'react-router-dom';
+import { useAuth, } from '../contexts/AuthContext';
+import { db,  storage } from '../firebase';
+
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import Navbar from './Navbar';
 
@@ -75,13 +75,13 @@ const Registration = () => {
         return setError('Passwords do not match')
     }
 
-    // if(passwordRef.current.value !== '^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$') {
-    //     return setError('Password needs to have One capital, One number and One special Character')
-    // }
+    if(passwordRef === '^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$') {
+        return setError('Password needs to have One capital, One number and One special Character')
+    }
 
-    // if(eircodeRef.current.value !== '([AC-FHKNPRTV-Y]\d{2}|D6W)[0-9AC-FHKNPRTV-Y]{4}') {
-    //     return setError('Please Enter a valid Eircode No Spaces, example A01BC23')
-    // }
+    if(eircodeRef === '([AC-FHKNPRTV-Y]\d{2}|D6W)[0-9AC-FHKNPRTV-Y]{4}') {
+        return setError('Please Enter a valid Eircode No Spaces, example Y34FR82')
+    }
 
    
 
@@ -100,7 +100,6 @@ const Registration = () => {
    const saveChange = async()=>{
     await addDoc(collection(db, "users"), {
         email: emailRef.current.value,
-        password: passwordRef.current.value,
         eircode: eircodeRef.current.value
     }, {merge: true})
 }
@@ -121,7 +120,7 @@ const Registration = () => {
                     <Form.Label column sm='2'>Email</Form.Label>
 
                     <Col sm="10">
-                    <Form.Control type='email' placeholder='Email Address' ref={emailRef} required />
+                    <Form.Control type='email' placeholder='Email Address' ref={emailRef} required="Please enter an email" />
                     </Col>
 
                 </Form.Group>
@@ -129,7 +128,7 @@ const Registration = () => {
                     <Form.Label column sm='2'>Password</Form.Label>
 
                     <Col sm="10">
-                    <Form.Control type='password' placeholder='Password' ref={passwordRef} pattern='^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$' required />
+                    <Form.Control type='password' placeholder='Password' ref={passwordRef} pattern='^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$' required = "Enter a Password with one capital, one number and one special character" />
                     </Col>
 
                 </Form.Group>
@@ -137,21 +136,21 @@ const Registration = () => {
                 <Form.Group id="confirm-password" as={Row} className="mt-4">
                     <Form.Label column sm='2'>Confirm Password</Form.Label>
                     <Col sm='10'>
-                    <Form.Control type='password' placeholder='Confirm Password' ref={confpasswordRef} pattern='^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$' required />
+                    <Form.Control type='password' placeholder='Confirm Password' ref={confpasswordRef} pattern='^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$' required = 'Make sure the passwords match' />
                     </Col>
                 </Form.Group>
 
                 <Form.Group id="eircode" as={Row} className="mt-4">
                     <Form.Label column sm = "2">Eircode</Form.Label>
                     <Col sm="10">
-                    <Form.Control type='text' placeholder='Eircode' ref={eircodeRef} pattern='([AC-FHKNPRTV-Y]\d{2}|D6W)[0-9AC-FHKNPRTV-Y]{4}' required />
+                    <Form.Control type='text' placeholder='Eircode' ref={eircodeRef} pattern='([AC-FHKNPRTV-Y]\d{2}|D6W)[0-9AC-FHKNPRTV-Y]{4}' required="enter valid Eircode" />
                     </Col>
                     
                 </Form.Group>
                 <Form.Group id="photo" as={Row} className="mt-4">
                     <Form.Label column = "2">Photo</Form.Label>
                     <Col sm="10">
-                    <Form.Control type='file' ref={photoRef} onChange={(e) => setFile(e.target.files[0])} required />
+                    <Form.Control type='file' ref={photoRef} onChange={(e) => setFile(e.target.files[0])} required='Select a profile picture' />
                     </Col>
                     <div className='image-container'>
                     <img src={ file
