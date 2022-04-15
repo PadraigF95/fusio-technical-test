@@ -7,7 +7,7 @@ import { db } from "../firebase"
 import { AiOutlineSearch } from 'react-icons/ai'
 import { TiArrowSortedDown,TiArrowSortedUp } from 'react-icons/ti'
 
-import { collection, onSnapshot, addDoc,  } from 'firebase/firestore';
+import { collection, onSnapshot, addDoc, query, orderBy,  } from 'firebase/firestore';
 
 import Table_data from './Table_data';
 import Navbar from './Navbar';
@@ -32,14 +32,14 @@ export default function Dashboard() {
     const [newquery, setNewQuery] = useState("");
     const [show, setShow] = useState(false);
     const [order, setOrder] = useState("ASC")
-    
+    const q = query(weatherCollectionRef, orderBy("location", "asc"))
     
     
     
 
     useEffect(() =>{   
     
-     onSnapshot(weatherCollectionRef, (snapshot) => {
+     onSnapshot(q, (snapshot) => {
          setWeatherData(snapshot.docs.map(doc=> ({...doc.data(), id: doc.id}))
          )
         
@@ -62,7 +62,7 @@ export default function Dashboard() {
               setWeatherData(sorted);
               setOrder("DSC")
           } 
-            
+         
       }
 
       const sortingASC = (col) => {
@@ -72,10 +72,11 @@ export default function Dashboard() {
             setWeatherData(sorted);
             setOrder("ASC")
         }
-
-        
+       
       }
 
+     
+  
       
       function handleClick(e) {
           e.preventDefault();
@@ -297,4 +298,5 @@ export default function Dashboard() {
     )}
     </>
   )
+  
 }

@@ -32,7 +32,6 @@ const Table_data = ({location, min_temp, max_temp, id, date, wind_speed, wind_di
 
   
   
-  
 
   
 
