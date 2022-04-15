@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Alert, Form, Modal, Row,Col } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext'
+
 import { useHistory } from 'react-router-dom';
 import { db } from "../firebase"
 import { AiOutlineSearch } from 'react-icons/ai'
-
+import { TiArrowSortedDown,TiArrowSortedUp } from 'react-icons/ti'
 
 import { collection, onSnapshot, doc, getDocs, limit, addDoc, arrayUnion, updateDoc, arrayRemove, deleteDoc, setDoc, orderBy, query } from 'firebase/firestore';
 
 import Table_data from './Table_data';
+import Navbar from './Navbar';
 
 
 export default function Dashboard() {
@@ -30,6 +32,7 @@ export default function Dashboard() {
     const [newquery, setNewQuery] = useState("");
     const [show, setShow] = useState(false);
     const [order, setOrder] = useState("ASC")
+    
 
     
     
@@ -52,25 +55,35 @@ export default function Dashboard() {
 
       if(loading) return <h1>loading data</h1>
 
-      const sorting = (col) => {
+      const sortingDSC = (col) => {
           if (order === "ASC") {
               const sorted = [...weatherData].sort((a, b) =>
               a[col] > b[col] ? 1 : -1)
               setWeatherData(sorted);
               setOrder("DSC")
           } 
-          if (order === "DSC") {
-              const sorted = [...weatherData].sort((a, b) =>
-              a[col] < b[col] ? 1 : -1);
-              setWeatherData(sorted);
-              setOrder("ASC")
-          }
+            else{
+                return 0;
+            }
+      }
+
+      const sortingASC = (col) => {
+        if (order === "DSC") {
+            const sorted = [...weatherData].sort((a, b) =>
+            a[col] < b[col] ? 1 : -1);
+            setWeatherData(sorted);
+            setOrder("ASC")
+        }
+
+        else{
+            return 0
+        }
       }
 
       
       function handleClick(e) {
           e.preventDefault();
-          
+        
           addDoc(weatherCollectionRef, {
               location: newLocation,
               date: new Date(newDate),
@@ -83,7 +96,7 @@ export default function Dashboard() {
           }).then(() =>{
             document.getElementById('data-form').reset()
           })
-          
+          console.log(newDate)
       }
       
         const handleChange = e => {
@@ -100,18 +113,10 @@ export default function Dashboard() {
     
 
 
-    async function handleLogout(){
-        setError('');
-
-        try{
-                await logout()
-                history.pushState('/login')
-        } catch{
-            setError('Failed to log out')
-        }
-    }
+   
   return (
     <>
+    <Navbar />
    <div className='search-container'>
         
         <form className='searchbar'>
@@ -132,15 +137,39 @@ export default function Dashboard() {
       <table className="table">
             <thead className="thead-dark">
                 <tr>
-                <th className='name-heading' onClick={() => sorting("location")}>Location</th>
+                <th className='name-heading'>Location
+                <TiArrowSortedUp className="sort_icon_asc" onClick={() =>sortingASC('location')} />
+                <TiArrowSortedDown className='sort_icon_dsc' onClick={() =>sortingDSC('location')} />
+                </th>
                 
-                <th className='height-heading' onClick={() => sorting("date")}>Date</th>
-                <th className='mass-heading' onClick={() => sorting("min_temp")}>Min Temp</th>
-                <th className='created-heading' onClick={() => sorting("max_temp")}>Max Temp</th>
-                <th className='edited-heading'onClick={() => sorting("wind_speed")}>Wind Speed</th>
-                <th className='homeworld-heading' onClick={() => sorting("wind_dir")}>Wind Dir</th>
-                <th className='homeworld-heading' onClick={() => sorting("wind_speed_night")}>Wind Speed Night</th>
-                <th className='homeworld-heading' onClick={() => sorting("wind_dir_night")}>Wind Dir Night</th>
+                <th className='height-heading'>Date
+                <TiArrowSortedUp className="sort_icon_asc" onClick={() => sortingASC('date')} />
+                <TiArrowSortedDown className='sort_icon_dsc' onClick={() => sortingDSC('date')}/>
+                </th>
+                <th className='mass-heading'>Min Temp
+                <TiArrowSortedUp className="sort_icon_asc" onClick={() => sortingASC('min_temp')}/>
+                <TiArrowSortedDown className='sort_icon_dsc' onClick={() => sortingDSC('min_temp')} />
+                </th>
+                <th className='created-heading'>Max Temp
+                <TiArrowSortedUp className="sort_icon_asc" onClick={() => sortingASC('max_temp')}/>
+                <TiArrowSortedDown className='sort_icon_dsc' onClick={() => sortingDSC('max_temp')}/>
+                </th>
+                <th className='edited-heading'>Wind Speed
+                <TiArrowSortedUp className="sort_icon_asc" onClick={() => sortingASC('wind_speed')}/>
+                <TiArrowSortedDown className='sort_icon_dsc' onClick={() => sortingDSC('wind_speed')} />
+                </th>
+                <th className='homeworld-heading'>Wind Dir
+                <TiArrowSortedUp className="sort_icon_asc" onClick={() => sortingASC('wind_dir')}/>
+                <TiArrowSortedDown className='sort_icon_dsc' onClick={() => sortingDSC('wind_dir')}/>
+                </th>
+                <th className='homeworld-heading'>Wind Speed Night
+                <TiArrowSortedUp className="sort_icon_asc" onClick={() => sortingASC('wind_speed_night')}/>
+                <TiArrowSortedDown className='sort_icon_dsc' onClick={() => sortingDSC('wind_speed_night')}/>
+                </th>
+                <th className='homeworld-heading'>Wind Dir Night
+                <TiArrowSortedUp className="sort_icon_asc" onClick={() => sortingASC('wind_dir_night')}/>
+                <TiArrowSortedDown className='sort_icon_dsc' onClick={() => sortingDSC('wind_dir_night')}/>
+                </th>
                 <th className='homeworld-heading'>Actions</th>
                 
                 </tr>
@@ -174,7 +203,7 @@ export default function Dashboard() {
        </table>
        </div>
 
-       <div>
+       <div className='add-data-from'>
            <div className='add-data-form-heading'>
                <h1 className='add-data-form-title'>Add New</h1>
            </div>
@@ -205,7 +234,7 @@ export default function Dashboard() {
                 <Form.Group id="date" as={Row} className="mt-4">
                     <Form.Label column sm="2">Date</Form.Label>
                     <Col sm="10">
-                    <Form.Control type='date' placeholder='Date'  onClick={(event) => {setNewDate(event.target.value)}} required />
+                    <Form.Control type='date' placeholder='Date'  onChange={(event) => {setNewDate(event.target.value)}} required />
                     </Col>
                     
                 </Form.Group>
@@ -250,21 +279,19 @@ export default function Dashboard() {
                     <Col sm="10">
                         <Form.Control type='text' placeholder='Cardinal Direction'  onChange={(event) => {setnewWindDirNight(event.target.value)}} required />
                     </Col>
-                </Form.Group>
-               
-                
                <div  className="add-data-button">
 
                <Button onClick={handleClick}>Add Data</Button>
                </div>
+                </Form.Group>
+               
+                
                </Form>
               
               
            </div>
        </div>
-    <div className='w-100 text-center mt-2'>
-        <Button variant="link" onClick={handleLogout}>Log Out</Button>
-    </div>
+    
     </>
   )
 }

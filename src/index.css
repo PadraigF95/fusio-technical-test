@@ -3,6 +3,7 @@
     margin:0;
     box-sizing: border-box;
     scroll-behavior: smooth;
+    
 }
 
 
@@ -25,11 +26,10 @@
 }
 
 
-
-
 .add-data-form-heading{
     text-align: center;
     padding-bottom: 2rem;
+     padding-top: 2rem;
 }
 
 .image-container{
@@ -50,44 +50,62 @@ img {
       height: 350px;
       overflow: hidden;
       overflow-y: scroll;
+      border-bottom: 2px solid;
+      
   }
 
   .table{
     border: 1px solid;
     margin-top: 2rem;
     margin-bottom: 2rem;
+ 
   }
 
-  .search_container{
-    
-   
+  .search-container{
+      padding-top: 1rem;
+      margin-right: 2.5%;
+      margin-left: 2.5%;
   }
+
 
   .searchbar{
     display: flex;
     flex-direction: row;
     align-items: center;
+    border: 1px solid;
+    border-radius:  15px;
+   
+   
+    
+    
   }
 
  .search_text{
-     text-align: center;
+     text-align: left;
      
  }
 
   .search-input{
-    width: 100%; 
-   border-radius: 15px;
-   border: 1px #000 solid;
-    padding: 5px 5px 5px 25px;
+    width: 90%; 
+  
+   border: none;
+   
+    padding: 0px 5px 0px 5px;
+    
   }
 
-  .search-icon{}
+  .search-icon{
+    padding-top: 3px;
+  }
 
- 
+
 
   tr td{
       background-color: #fff;
       text-align: left;
+    line-height: 10px;
+    border-right: solid 1px;
+    border-left: solid 1px;
     
       
   }
@@ -97,18 +115,7 @@ img {
     background-color: #ccc;
 }
 
-.data-location,
-.data-date,
-.data-min_temp,
-.data-max_temp,
-.data-wind_speed,
-.data-wind_dir,
-.data-wind_speed,
-.data-wind_speed_night,
-.data-wind_dir_night,
-.data-action{
-    line-height: 15px;
-}
+
 
 .add-data-button{
     display: flex;
@@ -122,3 +129,261 @@ img {
     
 }
 
+.app__navbar{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    background: black;
+}
+
+.app__navbar-links {
+    flex:1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    
+    list-style: none;
+}
+
+.app__navbar-links li{
+    margin: 0 1rem;
+    cursor: pointer;
+    color: white;
+    padding: 10px 20px 0px
+}
+
+.app__navbar-links a{
+text-decoration: none;
+color: white;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.app__navbar-links a:hover{
+    color: blue;
+    cursor: pointer;
+}
+
+.app__routes {
+    width: 100%;
+    height: 100vh;
+}
+
+.app__container{
+    width: 100%;
+}
+
+.add-form{
+    margin-right: 2.5%;
+      margin-left: 2.5%;
+}
+
+.thead-dark{
+    background-color: #ccc;
+    
+}
+
+.app_card-Body{
+    display: grid;
+    place-items: center;
+    
+    
+}
+
+.login-form{
+ margin-bottom: 6rem;
+}
+
+.login-button{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-top: 2rem;
+    padding-right: 2rem;
+}
+
+.register-button{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-top: 2rem;
+    padding-right: 2rem;
+}
+
+.app__login-form{
+    height: 100%;
+    display: grid;
+    place-items: center;
+    width: 100%;
+  
+}
+
+
+.card{
+    margin-top: 2rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    width: 50%;
+    
+}
+
+.app__registration-form{
+    height: 100%;
+    display: grid;
+    place-items: center;
+    width: 100%;
+}
+
+.app__navbar-smallscreen {
+    display: none;
+}
+
+.app__navbar-smallscreen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    transition: 0.5s ease;
+
+    flex-direction: column;
+    z-index: 5;
+}
+
+.app__navbar-smallscreen-overlay .overlay_close {
+    font-size: 27px;
+    color: white;
+    cursor: pointer;
+
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    
+}
+
+.app__navbar-smallscreen_links {
+    list-style: none;
+    
+    
+}
+
+.app__navbar-smallscreen_links li {
+    
+    cursor: pointer;
+    
+    font-size: 17px;
+    text-align: center;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: capitalize;
+    line-height: 28px;
+    font-size: 16px;
+  
+    
+   
+}
+
+.app__navbar-smallscreen_links a{
+    text-decoration: none;
+    color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+    height: 20vh;
+   
+}
+
+.app__navbar-smallscreen-logo{
+    display: flex;
+    width: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 10px;
+    
+    
+}
+
+.slide-bottom {
+    -webkit-animation: slide-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+      animation: slide-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  }
+  
+  @-webkit-keyframes slide-bottom {
+    0% {
+      -webkit-transform: translateY(-25%);
+              transform: translateY(-25%);
+    }
+    100% {
+      -webkit-transform: translateY(0);
+              transform: translateY(0);
+    }
+  }
+  
+  @keyframes slide-bottom {
+    0% {
+      -webkit-transform: translateY(-25%);
+              transform: translateY(-25%);
+    }
+    100% {
+      -webkit-transform: translateY(0);
+              transform: translateY(0);
+    }
+  }
+
+  .flex__center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+@media screen  and (max-width: 1150px){
+
+    .app__navbar {
+        display: none;
+    }
+    .app__navbar-links {
+        display: none;
+    }
+
+    .app__navbar-smallscreen {
+        display: flex;
+        background: black;
+        height: 40px;
+        
+    }
+}
+
+@media screen  and (max-width: 650px) {
+    .app__navbar{
+        display: none;
+    }
+
+    .app__navbar-login {
+        display: none;
+    }
+
+    .app__navbar-logo img{
+        width: 110px;
+        
+    }
+
+    .table-container{
+        overflow-x: scroll;
+    }
+
+    .thead-dark{
+        font-size: 10px;
+        
+    }
+
+ 
+    .sort_icon_asc,
+    .sort_icon_dsc{
+        transform: scale(.8);
+    }
+}

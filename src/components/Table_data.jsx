@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { db } from "../firebase"
 
-import { Card, Button, Alert, Form, Modal } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import '../index.css'
 
-import { collection, onSnapshot, doc, getDocs, limit, addDoc, arrayUnion, updateDoc, arrayRemove, deleteDoc, setDoc, orderBy, query } from 'firebase/firestore';
+import { doc,  deleteDoc, setDoc } from 'firebase/firestore';
 const Table_data = ({location, min_temp, max_temp, id, date, wind_speed, wind_dir, wind_speed_night, wind_dir_night}) => {
     const [show, setShow] = useState(false);
     const [newLocation, setNewLocation] = useState(location)
@@ -22,17 +22,17 @@ const Table_data = ({location, min_temp, max_temp, id, date, wind_speed, wind_di
   
   
 
-  let filteredDates = date.seconds;
+
 
   let formatDates = new Date(date.seconds * 1000)
-
-  
 
   let normalDate = new Date(formatDates).toLocaleString('en-GB', {timezone: 'UTC'})
 
   
+  
+  
 
-  console.log(normalDate)
+  
 
   
  
@@ -63,7 +63,7 @@ const Table_data = ({location, min_temp, max_temp, id, date, wind_speed, wind_di
   return (
     <>
      
-    <tr>
+    <tr className='data-values'>
 
        
         <td className='data-location'>{location}</td>
@@ -98,7 +98,7 @@ const Table_data = ({location, min_temp, max_temp, id, date, wind_speed, wind_di
                     onChange={(event) => {setNewLocation(event.target.value)}}
                     />
                     <input type="date"
-                    defaultValue={date}
+                    defaultValue={normalDate}
                     placeholder='Date'
                     className='mt-2'
                     onChange={(event) => {setNewDate(event.target.value)}}

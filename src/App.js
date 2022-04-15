@@ -6,17 +6,20 @@ import Registration from './components/Registration';
 import { AuthProvider } from './contexts/AuthContext';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PrivateRoute from './components/PrivateRoute';
+import Navbar from './components/Navbar';
+
 
 const App = () => {
   return (
-      
-             <Container className='d-flex align-items-center justify-content-center'
-      style={{ minHeight: "100vh"}}
+      <div className='app__container'
       >
-          <div className='w-100'>
+  
+      
+          <div className='app__routes'>
               <Router>
                   <AuthProvider>
                       <Switch>
+                          
                             <PrivateRoute exact path="/" component={Dashboard} />
                             <Route path="/registration" component={Registration} />
                             <Route path="/login" component={Login} />
@@ -26,7 +29,7 @@ const App = () => {
 
          
           </div>
-      </Container>
+      </div>
       
      
    

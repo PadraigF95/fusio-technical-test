@@ -6,6 +6,7 @@ import { useAuth, currentUser } from '../contexts/AuthContext';
 import { db, auth, storage } from '../firebase';
 import { doc } from "firebase/firestore"; 
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import Navbar from './Navbar';
 
 
 const Registration = () => {
@@ -105,7 +106,11 @@ const Registration = () => {
 }
 
   return (
+      
     <>
+    <Navbar />
+    <div className='app__registration-form'>
+
     <Card>
         <Card.Body>
             <h2 className='text-center mb-4'>Sign Up</h2>
@@ -124,7 +129,7 @@ const Registration = () => {
                     <Form.Label column sm='2'>Password</Form.Label>
 
                     <Col sm="10">
-                    <Form.Control type='text' placeholder='Password' ref={passwordRef} pattern='^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$' required />
+                    <Form.Control type='password' placeholder='Password' ref={passwordRef} pattern='^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$' required />
                     </Col>
 
                 </Form.Group>
@@ -156,14 +161,16 @@ const Registration = () => {
                    
                 </Form.Group>
                 
-                <Button disabled={loading} className='w-100 mt-4' type="submit" onClick={saveChange}>Sign Up</Button>
+            <div className='register-button'>
+                <Button disabled={loading}  type="submit" onClick={saveChange}>Sign Up</Button>
+
+            </div>
             </Form>
             
         </Card.Body>
     </Card>
-    <div className='w-100 text-center mt-2'>
-        Already have an account? <Link to="/login">Log in</Link>
     </div>
+ 
     </>
   )
 }

@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import { Form, Button, Card, Alert, Col, Row } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import Navbar from './Navbar';
 
 const Login = () => {
     const emailRef = useRef();
@@ -31,12 +32,15 @@ const Login = () => {
 
   return (
     <>
+    <Navbar />
+    <div className='app__login-form'>
+
     <Card>
-        <Card.Body>
+        <Card.Body className='app__card-body'>
             <h2 className='text-center mb-4'>Login</h2>
             
             {error && <Alert variant='danger'>{error}</Alert> }
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} className="login-form">
                 <Form.Group id="email" as={Row} className="mt-4">
                     <Form.Label column sm="2">Email</Form.Label>
                     <Col sm="10">
@@ -51,12 +55,15 @@ const Login = () => {
                     </Col>
                 </Form.Group>
              
-                <Button disabled={loading} className='w-100 mt-4' type="submit">Login</Button>
+                
+            <div  className='login-button'>
+
+            <Button disabled={loading} type="submit">Login</Button>
+            </div>
             </Form>
         </Card.Body>
     </Card>
-    <div className='w-100 text-center mt-2'>
-        Need an account? <Link to ="/registration">Sign Up</Link>
+    
     </div>
     </>
   )
