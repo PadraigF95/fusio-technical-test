@@ -26,21 +26,7 @@ const app = firebase.initializeApp({
 export const db = getFirestore();
 export const realtimeDB = getDatabase(app);
 
-const colRef = collection(db, 'data', 'days', 'day')
 
-// const q = query(colRef, limit(1));
-// console.log(q)
-// const forecast = []
-
-// getDocs(colRef).then((snapshot) => {
-        
- 
-//     snapshot.docs.forEach((doc) => {
-//         forecast.push({ ...doc.data(), id: doc.id})
-//         console.log('hello',weatherData)
-//     })
-        
-// })
 
 
 
@@ -50,6 +36,3 @@ export const auth = app.auth()
 export const storage = getStorage(app)
 export default app
 
-// forecast is an array with station as an object inside forecast
-// Then an array inside the station object which contains id, location and day
-// But day is an object with several arrays

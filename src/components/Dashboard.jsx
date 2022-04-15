@@ -31,8 +31,8 @@ export default function Dashboard() {
     const [newquery, setNewQuery] = useState("");
     const [show, setShow] = useState(false);
     const [order, setOrder] = useState("ASC")
-    
-
+    const passwordRegex = new RegExp(/^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$/)
+    const r  = new RegExp(/\d{3}/)
     
     
 
@@ -106,7 +106,7 @@ export default function Dashboard() {
             return <h1>Loading</h1>
         }
     
-
+        console.log(passwordRegex.test('Cookie2#'))
 
    
   return (

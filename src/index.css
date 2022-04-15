@@ -52,13 +52,15 @@ img {
       overflow-y: scroll;
       border-bottom: 2px solid;
       
+      
+      
   }
 
   .table{
     border: 1px solid;
     margin-top: 2rem;
     margin-bottom: 2rem;
- 
+    
   }
 
   .search-container{
@@ -86,8 +88,8 @@ img {
  }
 
   .search-input{
-    width: 90%; 
-  
+    width: 95%; 
+    outline: none;
    border: none;
    
     padding: 0px 5px 0px 5px;

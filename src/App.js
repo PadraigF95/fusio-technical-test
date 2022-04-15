@@ -1,12 +1,11 @@
 import React from 'react'
-import { Container } from 'react-bootstrap';
+
 import Login from './components/Login';
 import Dashboard from './components/Dashboard'
 import Registration from './components/Registration';
 import { AuthProvider } from './contexts/AuthContext';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import PrivateRoute from './components/PrivateRoute';
-import Navbar from './components/Navbar';
+
 
 
 const App = () => {
